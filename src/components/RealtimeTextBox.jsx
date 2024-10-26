@@ -1,6 +1,6 @@
 // src/components/RealtimeTextBox.js
 import React, { useState } from 'react';
-import { database, ref, set } from '../firebaseConfig';
+import { database, ref, push } from '../firebaseConfig';
 
 const RealtimeTextBox = () => {
   const [text, setText] = useState('');
@@ -17,8 +17,9 @@ const RealtimeTextBox = () => {
       return;
     }
 
-    // Gửi nội dung lên Firebase
-    set(ref(database, 'textBox'), {
+    // Thêm tin nhắn mới vào Firebase với khóa tự động
+    const messagesRef = ref(database, 'messages');
+    push(messagesRef, {
       text: text,
       timestamp: Date.now(),
     });
